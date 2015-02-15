@@ -1,0 +1,16 @@
+{{> header}}
+<div id="chat">
+    <div id="topic" class="messages topic">No chat window selected</div>
+</div>
+<div id="side">
+    <ul id="channels"></ul>
+    <ul id="pm"></ul>
+    <ul id="settings"></ul>
+</div>
+<form id="form_message">
+    <input id="message" autocomplete="off" /><button id="message_button" type="submit">Send</button>
+    <input id="network" hidden/>
+    <input id="channel" hidden/>
+    <input id="username" hidden/>
+</form>
+{{> footer}}
