@@ -12,7 +12,7 @@ all messages are kept for when you reopen the client.
 
 Ping notifications will only work if you have your sound on or, if selected, desktop notifications. You will
 not get pinged if the client was closed and then reopened, although the client will highlight all messages that
-match your keywords.
+match your keywords. Highlights are done using regex.
 
 The application by default should be set to reconnect to an irc server on disconnect, this is for when you may get
 disconnected from the server but would like to reconnect automatically. Message logs are not lost on a reconnect.

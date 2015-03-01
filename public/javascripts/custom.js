@@ -1,8 +1,9 @@
 var socket = io.connect(window.location.protocol+"//"+window.location.host);
 var network = {};
 var topics = {};
-var gotMessages = false;
+var gotMsg = false;
 var active_channel = null;
+var alerted = false;
 
 function changeChannel(element){
     var new_network = element.id.split(':')[0];
@@ -16,6 +17,24 @@ function changeChannel(element){
     $('#network').val(new_network);
     $('#channel').val('#' + new_channel);
     $('#username').val(new_username);
+}
+
+function ping(channel, network, user, message, time) {
+    if (!Notification) {
+        if(!alerted) {
+            alert('Notifications are supported in modern versions of Chrome, Firefox, Opera and Firefox.');
+            alerted = true;
+        }
+        return;
+    }
+
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+
+    new Notification(user + ' : ' + channel, {
+        icon: window.location.protocol+"//"+window.location.host+'/images/logo.png',
+        body: message
+    });
 }
 
 window.onload = function(){
@@ -43,20 +62,22 @@ socket.on('gotChannelList', function(list) {
 });
 
 socket.on('gotMessages', function(messages) {
-    if(gotMessages) return;
-    for(var a in messages){
-        topics[messages[a]['name']] = {};
-        for(var b in messages[a]){
-            if (b.substring(0, 1) === '#') {
-                var topic = messages[a][b]['settings']['topic'];
-                if(topic == ''){topic = 'No topic set'};
-                topics[messages[a]['name']][b] = messages[a][b]['settings']['topic'];
+    if(gotMsg == false) {
+        for(var a in messages){
+            topics[a] = {};
+            for (var b in messages[a]){
+                var topic = messages[a][b]['topic'];
+                if (topic == ''){
+                    topic = 'No topic set'
+                }
+                topics[a][b] = topic;
             }
         }
+        gotMsg = true;
     }
 });
 
-socket.on('receiveMessage', function(from, network, to, message) {
+socket.on('receiveMessage', function(from, network, to, message, timestamp, highlight) {
     var channel_name = to.split('#');
     var element = '#' + network + '_' + channel_name[channel_name.length -1];
     if (from === 'server'){
@@ -65,6 +86,10 @@ socket.on('receiveMessage', function(from, network, to, message) {
     else if(from.substring(0, 6) == 'action'){
         var username = from.split(':');
         $(element).append($('<li>').html('<b>* ' +username[1]+ '</b> ' + message));
+    }
+    else if (highlight == true){
+        ping(to, network, from, message, timestamp);
+        $(element).append($('<li style="font-weight: bold; color: orange">').text(from + ": " + message));
     }
     else{
         $(element).append($('<li>').text(from + ": " + message));
