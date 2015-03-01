@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>Node IRC Daemon</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/materialize.css" />
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
 </head>
 <!-- <div id="preload"><p id="loading">Loading...</p></div> -->

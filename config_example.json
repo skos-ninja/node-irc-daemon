@@ -4,6 +4,7 @@
     "username": "node-irc-bot",
     "port": 5000,
     "scrollback": 1000,
+    "logmsg": false,
     "password": "",
     "secretkey": "",
     "highlights": []

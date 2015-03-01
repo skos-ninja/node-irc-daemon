@@ -44,12 +44,8 @@ socket.on('gotChannelList', function(list) {
 
 socket.on('gotMessages', function(messages) {
     if(gotMessages) return;
-    console.log(messages);
-    console.log(network);
-    console.log(topics);
     for(var a in messages){
         topics[messages[a]['name']] = {};
-        console.log(topics);
         for(var b in messages[a]){
             if (b.substring(0, 1) === '#') {
                 var topic = messages[a][b]['settings']['topic'];
@@ -58,7 +54,6 @@ socket.on('gotMessages', function(messages) {
             }
         }
     }
-    console.log(topics);
 });
 
 socket.on('receiveMessage', function(from, network, to, message) {
@@ -77,7 +72,7 @@ socket.on('receiveMessage', function(from, network, to, message) {
 });
 
 socket.on('receivePrivateMessage', function(from, network, to, message) {
-    console.log(network + ": " + from + " => " + to + ": " + message)
+    console.log(network + ": " + from + " => " + to + ": " + message);
 });
 
 $('form').submit(function(){
@@ -95,12 +90,13 @@ $('form').submit(function(){
         return false;
     }
     else if($('#message').val().substring(0, 5) === '/kick'){
+        console.log('Kick message');
         if($('#message').val().substring(6) === ''){
-            $(message_channel).append($('<li style="font-weight: bold; color: #ffa500">').text('Usage: /kick <user>'));
+            $(message_channel).append($('<li style="font-weight: bold; color: #ffa500">').text('Usage: /kick <user> <reason (optional)>'));
             $('#message').val('');
             return false;
         }
-        socket.emit('sendKick', $('#network').val(), $('#channel').val(),  $('#message').val().substring(6));
+        socket.emit('sendMessage', $('#network').val(), $('#channel').val(),  $('#message').val());
         $('#message').val('');
         return false;
     }

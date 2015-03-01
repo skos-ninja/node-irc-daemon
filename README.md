@@ -34,5 +34,7 @@ it will rejoin the channels that had been joined before the connection was lost.
 This application is licensed under GNU GPL V3 license in which it states that I am not liable for any issues that
 might arise from using this application.
 
+Some parts of this program use their own licence which has still been included in their correct directories.
+
 # Support
 If you find a bug feel free to report it and if you can, try to fix it with a pull request!
