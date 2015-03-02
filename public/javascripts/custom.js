@@ -19,7 +19,7 @@ function changeChannel(element){
     $('#username').val(new_username);
 }
 
-function ping(channel, network, user, message, time) {
+function ping(channel, network, user, message) {
     if (!Notification) {
         if(!alerted) {
             alert('Notifications are supported in modern versions of Chrome, Firefox, Opera and Firefox.');
@@ -27,10 +27,9 @@ function ping(channel, network, user, message, time) {
         }
         return;
     }
-
-    if (Notification.permission !== "granted")
+    if (Notification.permission !== "granted") {
         Notification.requestPermission();
-
+    }
     new Notification(user + ' : ' + channel, {
         icon: window.location.protocol+"//"+window.location.host+'/images/logo.png',
         body: message
@@ -65,12 +64,31 @@ socket.on('gotMessages', function(messages) {
     if(gotMsg == false) {
         for(var a in messages){
             topics[a] = {};
-            for (var b in messages[a]){
-                var topic = messages[a][b]['topic'];
-                if (topic == ''){
-                    topic = 'No topic set'
+            for (var b in messages[a]) {
+                if (b.substring(0, 1) === "#") {
+                    var topic = messages[a][b]['topic'];
+                    if (topic == '') {
+                        topic = 'No topic set'
+                    }
+                    topics[a][b] = topic;
+                    for (var c in messages[a][b]['msg']) {
+                        var channel_name = b.split('#');
+                        var element = '#' + a + '_' + channel_name[channel_name.length - 1];
+                        if (messages[a][b]['msg'][c]['from'] === 'server') {
+                            $(element).append($('<li style="font-weight: bold">').text(messages[a][b]['msg'][c]['message']));
+                        }
+                        else if (messages[a][b]['msg'][c]['from'].substring(0, 6) == 'action') {
+                            var username = messages[a][b]['msg'][c]['from'].split(':');
+                            $(element).append($('<li>').html('<b>* ' + username[1] + '</b> ' + messages[a][b]['msg'][c]['message']));
+                        }
+                        else if (messages[a][b]['msg'][c]['highlight'] == true) {
+                            $(element).append($('<li style="font-weight: bold; color: orange">').text(messages[a][b]['msg'][c]['from'] + ": " + messages[a][b]['msg'][c]['message']));
+                        }
+                        else {
+                            $(element).append($('<li>').text(messages[a][b]['msg'][c]['from'] + ": " + messages[a][b]['msg'][c]['message']));
+                        }
+                    }
                 }
-                topics[a][b] = topic;
             }
         }
         gotMsg = true;
@@ -88,7 +106,7 @@ socket.on('receiveMessage', function(from, network, to, message, timestamp, high
         $(element).append($('<li>').html('<b>* ' +username[1]+ '</b> ' + message));
     }
     else if (highlight == true){
-        ping(to, network, from, message, timestamp);
+        ping(to, network, from, message);
         $(element).append($('<li style="font-weight: bold; color: orange">').text(from + ": " + message));
     }
     else{
@@ -115,7 +133,6 @@ $('form').submit(function(){
         return false;
     }
     else if($('#message').val().substring(0, 5) === '/kick'){
-        console.log('Kick message');
         if($('#message').val().substring(6) === ''){
             $(message_channel).append($('<li style="font-weight: bold; color: #ffa500">').text('Usage: /kick <user> <reason (optional)>'));
             $('#message').val('');
@@ -152,7 +169,6 @@ $('form').submit(function(){
     }
     else{
         socket.emit('sendMessage', $('#network').val(), $('#channel').val(),  $('#message').val());
-        $(message_channel).append($('<li>').text($('#username').val() + ": " + $('#message').val()));
         $('#message').val('');
         return false;
     }
