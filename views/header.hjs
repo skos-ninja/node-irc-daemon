@@ -3,7 +3,7 @@
 <head>
     <title>Node IRC Daemon</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/materialize.css" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
-</head>
-<!-- <div id="preload"><p id="loading">Loading...</p></div> -->
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/jquery-1.11.2.min.js"></script>
+    <script src="/javascripts/materialize.js"></script>

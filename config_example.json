@@ -1,7 +1,8 @@
 {
   "settings": {
     "timezone": "GMT",
-    "username": "node-irc-bot",
+    "realname": "Node IRC Daemon",
+    "username": "node-irc-daemon",
     "port": 5000,
     "scrollback": 1000,
     "logmsg": false,
@@ -10,30 +11,5 @@
     "highlights": []
   },
   "servers": {
-    "example": {
-      "name": "example",
-      "address": "irc.example.com",
-      "port": 6697,
-      "username": "example",
-      "password": "",
-      "reconnect": true,
-      "debug": false,
-      "channels": [
-        "#example",
-        "#example2"
-      ]
-    },
-    "example2": {
-      "name": "example2",
-      "address": "irc.example.net",
-      "port": 6697,
-      "username": "example2",
-      "password": "",
-      "reconnect": true,
-      "debug": false,
-      "channels": [
-        "#example"
-      ]
-    }
   }
 }

@@ -1,5 +1,6 @@
 var express = require('express');
-var user = require('../lib/user.js');
+var files = require('../lib/files.js');
+var hasher = require('../lib/hasher.js');
 var router = express.Router();
 
 function renderlogin(res, error){
@@ -11,61 +12,94 @@ function renderlogin(res, error){
             header: 'header',
             footer: 'footer'
         }
-    });}
+    });
+}
 
-/* GET home page. */
 router.get('/', function(req, res) {
-    if(req.signedCookies['authkey']){
-        if(!user.checkcookie(req, res, req.signedCookies['authkey'])) {
-            if (!req.get('Referer')) {
-                res.redirect('/');
-                return
-            }
-        }
-        res.send(req.get('Referer'));
-        res.redirect(req.get('Referer'));
-    }
-    else {
-        renderlogin(res);
-    }
-});
-
-router.get('/failed', function(req, res) {
-    if(req.signedCookies['authkey']){
-        if(!user.checkcookie(req, res, req.signedCookies['authkey'])){
-            if (!req.get('Referer')){
-                res.redirect('/');
-                return;
-            }
-            res.redirect(req.get('Referer'));
-            return;
-        }
-        renderlogin(res, true);
-    }
-    else {
-        renderlogin(res, true);
-    }
-});
-
-
-router.post('/', function(req, res) {
-    if(!req.body.password){
-        res.setHeader('method', 'GET');
-        res.redirect("/login/failed");
+    if (files.setup == true){
+        res.redirect('/setup');
         return;
     }
-    if(req.signedCookies['authkey']){
-        if(!user.checkcookie(req, res, req.signedCookies['authkey'])) {
-            res.setHeader('method', 'GET');
-            res.redirect("/login");
+    if (req.signedCookies['authkey']) {
+        if (req.signedCookies['authkey'] != files.authkey) {
+            res.clearCookie('authkey');
+            renderlogin(res, false);
             return;
         }
     }
-    password = req.body.password;
-    user.checklogin(req, res, password);
+    else {
+        renderlogin(res, false);
+        return;
+    }
+    res.redirect('/');
+});
 
-    res.setHeader('method', 'GET');
-    res.redirect("/");
+router.get('/error', function(req, res) {
+    if (files.setup == true){
+        res.redirect('/setup');
+        return;
+    }
+    if (req.signedCookies['authkey']) {
+        if (req.signedCookies['authkey'] != files.authkey) {
+            res.clearCookie('authkey');
+            renderlogin(res, true);
+            return;
+        }
+    }
+    else {
+        renderlogin(res, true);
+        return;
+    }
+    res.redirect('/');
+});
+
+router.post('/', function(req, res) {
+    if (files.setup == true) {
+        res.redirect('/setup');
+        return;
+    }
+    if (req.signedCookies['authkey']) {
+        if (req.signedCookies['authkey'] != files.authkey) {
+            res.clearCookie('authkey');
+            res.render('login', {
+                title: 'Login',
+                error: error,
+                partials: {
+                    header: 'header',
+                    footer: 'footer'
+                }
+            });
+            return;
+        }
+    }
+    else {
+        res.render('login', {
+            title: 'Login',
+            error: error,
+            partials: {
+                header: 'header',
+                footer: 'footer'
+            }
+        });
+        return;
+    }
+    hasher.compare(req.body.password, function (err, result) {
+        if (result == true) {
+            if (files.authkey != '') {
+                res.cookie('authkey', files.authkey, {signed: true});
+                res.redirect('/');
+            }
+            hasher.hash(new Date().getTime(), function (err, authtoken) {
+                if (err) throw err;
+                files.authkey = authtoken;
+                res.cookie('authkey', authtoken, {signed: true});
+                res.redirect('/');
+            })
+        }
+        else {
+            res.redirect('/login/error');
+        }
+    });
 });
 
 module.exports = router;

@@ -3,6 +3,61 @@
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
+.network
+{
+  text-transform:capitalize;
+}
+
+.overflow {
+  top: 6%;
+  max-height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  bottom: 10%;
+}
+
+.bottom {
+  bottom: 0;
+  position: fixed;
+  background-color: #424242;
+  height: 10%;
+  max-height: 10%;
+}
+
+.top {
+  top: 0;
+  position: fixed;
+  background-color: #424242;
+  height: 6%;
+  max-height: 6%;
+}
+
+.mid {
+  top: 6%;
+  position: fixed;
+  background-color: #424242;
+  bottom: 10%;
+}
+
+.right {
+  right: 0;
+}
+
+.rounded {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 0 0 25%;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
 .materialize-red.lighten-5 {
   background-color: #fdeaeb !important; }
 
@@ -1646,6 +1701,7 @@ html {
  * Remove default margin.
  */
 body {
+  height:100%;
   margin: 0; }
 
 /* HTML5 display definitions
@@ -5206,6 +5262,8 @@ a {
   text-decoration: none; }
 
 html {
+  position: relative;
+  min-height: 100%;
   line-height: 1.5;
   font-family: "Roboto", sans-serif;
   font-weight: normal;

@@ -1,16 +1,63 @@
 {{> header}}
-<div id="chat">
-    <div id="topic" class="messages topic">No chat window selected</div>
+</head>
+<body class="grey darken-3">
+<header>
+<div class="row grey darken-3">
+<div class="top col s12">
+    <div class="col s3 left-align">
+        <h5 class="center-align white-text">Node-IRC-Daemon</h5>
+    </div>
+    <div class="col s9">
+        <h5 class="center-align white-text truncate" id="chat-title">No Chat Window Selected</h5>
+    </div>
 </div>
-<div id="side">
-    <ul id="channels"></ul>
-    <ul id="pm"></ul>
-    <ul id="settings"></ul>
 </div>
-<form id="form_message">
-    <input id="message" autocomplete="off" /><button id="message_button" type="submit">Send</button>
-    <input id="network" hidden/>
-    <input id="channel" hidden/>
-    <input id="username" hidden/>
-</form>
+</header>
+<main>
+    <!-- Page Layout here -->
+        <div class="row">
+        <div class="mid col s12">
+          <div class="col s3 left-align grey darken-3">
+            <ul class="collapsible white darken-2 rounded" data-collapsible="accordion">
+                    <li>
+                      <div id="channels-header" class="collapsible-header active"><i class="mdi-social-people-outline"></i>Channels</div>
+                      <div id="channels" class="collapsible-body">
+                      </div>
+                    </li>
+                    <li>
+                      <div id="pm-header" class="collapsible-header"><i class="mdi-social-person-outline"></i>Private Messages</div>
+                      <div id="pm" class="collapsible-body">
+                      </div>
+                    </li>
+            </ul>
+          </div>
+          <div id="chat-scroll" class="col s9 overflow">
+            <div id="chat">
+            </div>
+          </div>
+        </div>
+        </div>
+</main>
+<footer>
+<div class="row">
+<div class="bottom col s12">
+    <div class="col s3" style="padding-top: 1.5%;">
+        <a class="waves-effect waves-light btn col s3">New</a>
+        <a class="waves-effect waves-light btn col s3 offset-s1" href="/settings">Settings</a>
+        <a class="waves-effect waves-light btn col s3 offset-s1" href="/logout">Log Out</a>
+    </div>
+    <div class="col s9 right-align">
+        <form id="form_message" class="grey lighten-5">
+             <div class="messages input-field col s10  grey lighten-5">
+                 <input id="message" type="text" autocomplete="off" disabled/>
+             </div>
+             <div class="input-field col s2 right">
+                 <button class="btn-large waves-effect waves-light bottom col s12" id="message-submit" type="submit" disabled>Submit</button>
+             </div>
+        </form>
+    </div>
+    </div>
+</div>
+<script src="/javascripts/irc.js"></script>
+</footer>
 {{> footer}}

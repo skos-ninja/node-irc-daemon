@@ -22,19 +22,34 @@ joined whilst the application is open are lost after a restart so if you want to
 add it to the config. If the application looses connection to the irc server but does not restart the application then
 it will rejoin the channels that had been joined before the connection was lost.
 
-# Setup
+## Setup
 1. Clone this program from the git repo
 2. Make sure nodejs is installed and npm
 3. Run "npm install" when in the main application directory
-4. Copy the config-example.json file to config.json
-5. Fill in the config.json file (Most settings can be changed on the settings page)
-6. Run the application and browse to the ip and port it is running on (For optimal running I recommend using screen)
+4. Launch the program using node app.js or any other method you have for launching nodejs applications
+5. Go to whatever port was put into console on launch, the application will default to 5000 but if taken it will try for another random port
+6. Follow the setup that will appear on the page.
+7. Done!!
 
-# License
-This application is licensed under GNU GPL V3 license in which it states that I am not liable for any issues that
-might arise from using this application.
+## Advanced Setup
+You are always able to manually fill in the config but on start it will check for a config and if none is detected it will run in setup mode.
+
+For some advanced features you can always run a apache proxy if you would like easier access to your client.
+
+The client also has support for an ssl cert if you would like to use one but that has to be done manually in the config in the blank ssl settings.
+By default it will launch without ssl if that is not completed. A restart of the client is needed if you do add an ssl cert.
+
+## License
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Some parts of this program use their own licence which has still been included in their correct directories.
 
-# Support
+## Support
 If you find a bug feel free to report it and if you can, try to fix it with a pull request!
+Or you can contact on the #node-irc-daemon channel on esper!
