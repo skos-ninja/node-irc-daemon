@@ -9,6 +9,7 @@ var username = "";
 var channel = "";
 var networks = "";
 var pending_invite = null;
+var new_server_selector = false;
 
 function changeChannel(element){
     if(element.id.split(':')[0] === 'p'){
@@ -76,9 +77,52 @@ function ping(channel, network, user, message) {
     }
 }
 
+function modalChosen(){
+    if($('#new_selector').val() === 'channel'){
+        $('#new').closeModal({
+            complete: function(){
+                console.log(network);
+                if(new_server_selector == false){
+                    for( var a in network){
+                        $('#new_channel_server_selector').append('<option value="' + network[a]['name'] + '">' + network[a]['name'] +'</option>');
+                        $('#new_pm_server_selector').append('<option value="' + network[a]['name'] + '">' + network[a]['name'] +'</option>');
+                    }
+                    $('#new_channel_server_selector').material_select();
+                    $('#new_pm_server_selector').material_select();
+                }
+                $('#new_channel').openModal();
+            }
+        });
+    }
+    if($('#new_selector').val() === 'pm'){
+        $('#new').closeModal({
+            complete: function(){
+                if(new_server_selector == false){
+                    for( var a in network){
+                        $('#new_channel_server_selector').append('<option value="' + network[a]['name'] + '">' + network[a]['name'] +'</option>');
+                        $('#new_pm_server_selector').append('<option value="' + network[a]['name'] + '">' + network[a]['name'] +'</option>');
+                    }
+                    $('#new_channel_server_selector').material_select();
+                    $('#new_pm_server_selector').material_select();
+                }
+                $('#new_pm').openModal();
+            }
+        });
+    }
+    if($('#new_selector').val() === 'server'){
+        $('#new').closeModal({
+            complete: function(){
+                $('#new_network').openModal();
+            }
+        });
+    }
+    return false;
+}
+
 $(document).ready(function(){
     $('#window-preload').show(300);
     socket.emit('getChannelList');
+    $('#new_selector').material_select();
     $('.modal-trigger').leanModal();
     $('.dropdown-button').dropdown({
             inDuration: 300,
@@ -114,7 +158,6 @@ socket.on('gotChannelList', function(list) {
         }
     }
     socket.emit('getMessages');
-    $('#window-selector').show(300);
 });
 
 socket.on('gotMessages', function(messages, pmessages) {
@@ -173,6 +216,8 @@ socket.on('gotMessages', function(messages, pmessages) {
             }
         }
         gotMsg = true;
+        $('#window-selector').show(300);
+        $('#chat-title').fadeOut().text('No Chat Window Selected').fadeIn();
     }
 });
 
@@ -219,10 +264,33 @@ socket.on('receivePrivateMessage', function(from, network, to, message, timestam
     $('#chat-scroll').animate({scrollTop:$('#chat-scroll').height() + 800}, 'slow');
 });
 
+socket.on('topic', function(Network, Channel, new_topic) {
+    topics[Network][Channel] = new_topic;
+    if(Network === networks){
+        if(Channel === channel){
+            $('#chat-title').fadeOut().text('Network: ' + Network + ', Channel: ' + Channel + ', Topic: ' + topics[Network][Channel]).fadeIn();
+        }
+    }
+});
+
 socket.on('invite', function(from, network, channel) {
     ping(channel, network, from, "You have been invited to join " + channel + ". Type /invite accept to join the channel!");
     $(active_channel).append($('<li class="collection-item" style="font-weight: bold">').text("You have been invited to join " + channel + ". Type /invite accept to join!"));
     pending_invite = true;
+});
+
+socket.on('disconnect', function(){
+   toast('You have lost connection to the server!', 4000);
+});
+
+socket.on('reconnect', function(){
+   toast('You have regained connection! ' +
+   'You may have to refresh to see missed messages', 4000);
+});
+
+socket.on('server_error', function(error_message){
+   console.log('Server Error: ' + error_message);
+   toast('Server Error: ' + error_message, 10000);
 });
 
 $('form').submit(function(){

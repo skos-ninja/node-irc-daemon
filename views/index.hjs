@@ -6,7 +6,7 @@
         <h5 class="center-align white-text">Node-IRC-Daemon</h5>
     </div>
     <div class="col s9">
-        <h5 class="center-align white-text" id="chat-title">No Chat Window Selected</h5>
+        <h5 class="center-align white-text" id="chat-title">Loading...</h5>
     </div>
 </div>
 </div>
@@ -39,7 +39,7 @@
 <div class="row">
 <div class="bottom col s12">
     <div class="col s3" style="padding-top: 1.5%;">
-        <a class="waves-effect waves-light btn col s3 dropdown-button" data-activates="new">New</a>
+        <a class="waves-effect waves-light btn col s3 modal-trigger" href="#new">New</a>
         <a class="waves-effect waves-light btn col s3 offset-s1" href="/settings">Settings</a>
         <a class="waves-effect waves-light btn col s3 offset-s1" href="/logout">Log Out</a>
     </div>
@@ -57,16 +57,39 @@
 </div>
 <script src="/javascripts/irc.js"></script>
 </footer>
-<ul id='new' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-</ul>
+<form id="new_form" onsubmit="return modalChosen()" action="#">
+    <div id="new" class="modal center-align">
+        <div class="modal-content">
+            <h4>New...</h4>
+            <br>
+            <div class="row">
+                <div class="col s6 offset-s3">
+                    <select id="new_selector">
+                        <option value="channel">Channel</option>
+                        <option value="pm">Private Message</option>
+                        <option value="server">Server</option>
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-green btn-flat modal-action" onclick="$('#new_form').submit();">Add</a>
+            <a class="waves-effect waves-red btn-flat modal-action modal-close">Cancel</a>
+        </div>
+    </div>
+</form>
+</form>
 <div id="new_channel" class="modal modal-fixed-footer center-align">
     <div class="modal-content">
-        <h4>New...</h4>
-        <p>A bunch of text</p>
+        <h4>New Channel</h4>
+        <br>
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <label>Network</label>
+                <select id="new_channel_server_selector">
+                </select>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Save</a>
@@ -75,8 +98,15 @@
 </div>
 <div id="new_pm" class="modal modal-fixed-footer center-align">
     <div class="modal-content">
-        <h4>New...</h4>
-        <p>A bunch of text</p>
+        <h4>New Private Message</h4>
+        <br>
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <label>Network</label>
+                <select id="new_pm_server_selector">
+                </select>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Save</a>
@@ -85,7 +115,7 @@
 </div>
 <div id="new_network" class="modal modal-fixed-footer center-align">
     <div class="modal-content">
-        <h4>New...</h4>
+        <h4>New Server</h4>
         <p>A bunch of text</p>
     </div>
     <div class="modal-footer">

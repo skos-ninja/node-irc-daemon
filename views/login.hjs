@@ -4,7 +4,7 @@
     <h2 class="white-text" id="title">Node-IRC-Daemon</h2>
     <h5 class="red-text" id="error" {{^error}}style="display: none;"{{/error}}>Error! Incorrect Password.</h5>
 </header>
-<form id="setup" action="/login" method="post" onsubmit="return login()" enctype="application/json">
+<form id="login" action="/login" method="post" onsubmit="return login()" enctype="application/json">
 <main>
     <div class="col s12 m6 offset-m3">
         <div class="card  white darken-2">
@@ -19,7 +19,7 @@
                         <label for="password" class="center-align" >Password</label>
                     </div>
                 </div>
-                <a href="#" class="waves-effect waves-light btn col s4 offset-s4 center-align white-text">Login</a>
+                <a onclick="$('#login').submit();" class="waves-effect waves-light btn col s4 offset-s4 center-align white-text">Login</a>
             </div>
         </div>
     </div>

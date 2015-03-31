@@ -593,11 +593,11 @@ jQuery.extend( jQuery.easing,
         $(this).css({ top: 0});
         $("#lean-overlay").css({display:"none"});
 
-        // Call complete callback
-        if (typeof(options.complete) === "function") {
-          options.complete();
+          $('#lean-overlay').remove();
+          if (typeof(options.complete) === "function") {
+              // Call complete callback
+              options.complete();
         }
-        $('#lean-overlay').remove();
       });
     }
   })
