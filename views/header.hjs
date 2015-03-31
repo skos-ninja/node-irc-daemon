@@ -7,3 +7,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/jquery-1.11.2.min.js"></script>
     <script src="/javascripts/materialize.js"></script>
+</head>
+<body class="grey darken-3">
+<div id="window-preload" style="display: none;">

@@ -60,10 +60,11 @@ router.post('/', function(req, res) {
     }
     if (req.signedCookies['authkey']) {
         if (req.signedCookies['authkey'] != files.authkey) {
+            console.log('Attempt at using an incorrect authkey!');
             res.clearCookie('authkey');
             res.render('login', {
                 title: 'Login',
-                error: error,
+                error: false,
                 partials: {
                     header: 'header',
                     footer: 'footer'
@@ -72,32 +73,24 @@ router.post('/', function(req, res) {
             return;
         }
     }
-    else {
-        res.render('login', {
-            title: 'Login',
-            error: error,
-            partials: {
-                header: 'header',
-                footer: 'footer'
-            }
-        });
-        return;
-    }
-    hasher.compare(req.body.password, function (err, result) {
+    hasher.compare(req.body.password, function (result) {
         if (result == true) {
             if (files.authkey != '') {
                 res.cookie('authkey', files.authkey, {signed: true});
                 res.redirect('/');
+                return;
             }
-            hasher.hash(new Date().getTime(), function (err, authtoken) {
-                if (err) throw err;
-                files.authkey = authtoken;
-                res.cookie('authkey', authtoken, {signed: true});
-                res.redirect('/');
-            })
+            var authtoken = hasher.hashSync(new Date().getTime());
+            console.log('Generating new authkey');
+            files.authkey = authtoken;
+            res.cookie('authkey', authtoken, {signed: true});
+            res.redirect('/');
         }
         else {
-            res.redirect('/login/error');
+            files.compileDate(function (date) {
+                console.log('Failed login at ' + date);
+            });
+            renderlogin(res, true);
         }
     });
 });

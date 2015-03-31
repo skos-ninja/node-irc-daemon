@@ -1,6 +1,4 @@
 {{> header}}
-</head>
-<body class="grey darken-3">
 <header>
 <div class="row grey darken-3">
 <div class="top col s12">
@@ -8,19 +6,18 @@
         <h5 class="center-align white-text">Node-IRC-Daemon</h5>
     </div>
     <div class="col s9">
-        <h5 class="center-align white-text truncate" id="chat-title">No Chat Window Selected</h5>
+        <h5 class="center-align white-text" id="chat-title">No Chat Window Selected</h5>
     </div>
 </div>
 </div>
 </header>
 <main>
-    <!-- Page Layout here -->
         <div class="row">
         <div class="mid col s12">
           <div class="col s3 left-align grey darken-3">
-            <ul class="collapsible white darken-2 rounded" data-collapsible="accordion">
+            <ul class="collapsible white darken-2 rounded" data-collapsible="accordion" id="window-selector" style="display: none;">
                     <li>
-                      <div id="channels-header" class="collapsible-header active"><i class="mdi-social-people-outline"></i>Channels</div>
+                      <div id="channels-header" class="collapsible-header"><i class="mdi-social-people-outline"></i>Channels</div>
                       <div id="channels" class="collapsible-body">
                       </div>
                     </li>
@@ -42,7 +39,7 @@
 <div class="row">
 <div class="bottom col s12">
     <div class="col s3" style="padding-top: 1.5%;">
-        <a class="waves-effect waves-light btn col s3">New</a>
+        <a class="waves-effect waves-light btn col s3 dropdown-button" data-activates="new">New</a>
         <a class="waves-effect waves-light btn col s3 offset-s1" href="/settings">Settings</a>
         <a class="waves-effect waves-light btn col s3 offset-s1" href="/logout">Log Out</a>
     </div>
@@ -60,4 +57,40 @@
 </div>
 <script src="/javascripts/irc.js"></script>
 </footer>
+<ul id='new' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+</ul>
+<div id="new_channel" class="modal modal-fixed-footer center-align">
+    <div class="modal-content">
+        <h4>New...</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Save</a>
+        <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Cancel</a>
+    </div>
+</div>
+<div id="new_pm" class="modal modal-fixed-footer center-align">
+    <div class="modal-content">
+        <h4>New...</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Save</a>
+        <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Cancel</a>
+    </div>
+</div>
+<div id="new_network" class="modal modal-fixed-footer center-align">
+    <div class="modal-content">
+        <h4>New...</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Save</a>
+        <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Cancel</a>
+    </div>
+</div>
 {{> footer}}

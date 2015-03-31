@@ -1,7 +1,4 @@
 {{> header}}
-<script src="/javascripts/setup.js"></script>
-</head>
-<body class="grey darken-3">
 <div class="container row center-align">
 <header class="center-align">
     <h2 class="white-text" id="title">Node-IRC-Daemon</h2>
@@ -117,6 +114,7 @@
 <footer class="center-align">
     <a class="waves-effect waves-light btn col s2 offset-s3 center-align red" onclick="resetform()">Reset</a>
     <a class="waves-effect waves-light btn col s2 offset-s2 center-align" onclick="submitform()">Confirm</a>
+    <script src="/javascripts/setup.js"></script>
 </footer>
 </form>
 </div>

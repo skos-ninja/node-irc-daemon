@@ -79,6 +79,7 @@ function resetform(){
     $('#server-password').val('');
     $('#server-channel').val('');
 }
-$('#setup').submit(function (event) {
 
+$(document).ready(function(){
+    $('#window-preload').show(300);
 });

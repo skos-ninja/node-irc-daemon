@@ -86,7 +86,6 @@ app.use(function(err, req, res) {
     });
 });
 
-
 sockets.connect(io);
 console.log("The application has started on port: " + files.cfg['settings']['port']);
 module.exports = app;

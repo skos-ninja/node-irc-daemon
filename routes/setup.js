@@ -54,7 +54,7 @@ router.post('/submit', function(req, res) {
             "realname": req.body.realname,
             "username": req.body.username,
             "password": password,
-            "secretkey": files.cfg['settings']['salt'],
+            "secretkey": files.cfg['settings']['secretkey'],
             "port": req.body.port,
             "scrollback": 1000,
             "logmsg": false,

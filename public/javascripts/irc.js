@@ -76,9 +76,21 @@ function ping(channel, network, user, message) {
     }
 }
 
-window.onload = function(){
+$(document).ready(function(){
+    $('#window-preload').show(300);
     socket.emit('getChannelList');
-};
+    $('.modal-trigger').leanModal();
+    $('.dropdown-button').dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            constrain_width: true, // Does not change width of dropdown to that of the activator
+            hover: false, // Activate on click
+            alignment: 'left', // Aligns dropdown to left or right edge (works with constrain_width)
+            gutter: 0, // Spacing from edge
+            belowOrigin: true // Displays dropdown below the button
+        }
+    );
+});
 
 socket.on('broadcast', function(data) {
     console.log(data)
@@ -102,7 +114,7 @@ socket.on('gotChannelList', function(list) {
         }
     }
     socket.emit('getMessages');
-    $('#channels-header').addClass('active');
+    $('#window-selector').show(300);
 });
 
 socket.on('gotMessages', function(messages, pmessages) {
