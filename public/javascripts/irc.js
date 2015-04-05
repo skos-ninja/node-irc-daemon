@@ -225,23 +225,24 @@ socket.on('receiveMessage', function(from, network, to, message, timestamp, high
     var channel_name = to.split('#');
     var element = '#' + network + '_' + channel_name[channel_name.length -1];
     if (from === 'server'){
-        $(element).append($('<li class="collection-item" style="font-weight: bold">').text(message));
+        $(element).append($('<li class="collection-item tooltiped" style="font-weight: bold;" data-position="bottom" data-tooltip="' + timestamp +'" >').text(message));
     }
     else if(from.substring(0, 7) == 'action:'){
         var username = from.split(':');
-        $(element).append($('<li class="collection-item" >').html('<b>* ' +username[1]+ '</b> ' + message));
+        $(element).append($('<li class="collection-item tooltiped" data-position="bottom" data-tooltip="' + timestamp +'" >').html('<b>* ' +username[1]+ '</b> ' + message));
         if (highlight == true){
             ping(to, network, username[1], message);
         }
     }
     else if (highlight == true){
         ping(to, network, from, message);
-        $(element).append($('<li class="collection-item" style="font-weight: bold; color: orange">').text(from + ": " + message));
+        $(element).append($('<li class="collection-item tooltiped" style="font-weight: bold; color: orange;" data-position="bottom" data-tooltip="' + timestamp +'" >').text(from + ": " + message));
     }
     else{
         $(element).append($('<li class="collection-item" >').text(from + ": " + message));
     }
     $('html, body').animate({scrollTop:$('#chat-scroll').height()}, 'slow');
+    $('.tooltipped').tooltip({delay: 50});
 });
 
 socket.on('receivePrivateMessage', function(from, network, to, message, timestamp, self) {
@@ -252,16 +253,17 @@ socket.on('receivePrivateMessage', function(from, network, to, message, timestam
     }
     else if(from.substring(0, 7) == 'action:'){
         var username = from.split(':')[1];
-        $(element).append($('<li class="collection-item" >').html('<b>* ' + username + '</b> ' + message));
+        $(element).append($('<li class="collection-item tooltiped" data-position="bottom" data-tooltip="' + timestamp +'" >').html('<b>* ' + username + '</b> ' + message));
     }
     else{
-        $(element).append($('<li class="collection-item" >').text(from + ": " + message));
+        $(element).append($('<li class="collection-item tooltiped" data-position="bottom" data-tooltip="' + timestamp +'" >').text(from + ": " + message));
         var username = from;
     }
     if (!self) {
         ping('pm', network, username, message);
     }
-    $('#chat-scroll').animate({scrollTop:$('#chat-scroll').height() + 800}, 'slow');
+    $('html, body').animate({scrollTop:$('#chat-scroll').height() + 800}, 'slow');
+    $('.tooltipped').tooltip({delay: 50});
 });
 
 socket.on('topic', function(Network, Channel, new_topic) {
