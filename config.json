@@ -1,0 +1,7 @@
+{
+  "mongo_address": "localhost",
+  "mongo_port": 27017,
+  "mongo_self_start": false,
+  "socket_port": 3000,
+  "development": true
+}
