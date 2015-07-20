@@ -2,6 +2,10 @@
   "mongo_address": "localhost",
   "mongo_port": 27017,
   "mongo_self_start": false,
-  "socket_port": 3000,
+  "websocket": true,
+  "tcp": true,
+  "bind_address": "127.0.0.1",
+  "bind_port_socket": 3000,
+  "bind_port_tcp": 3001,
   "development": true
 }

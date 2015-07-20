@@ -37,7 +37,7 @@ global.process.on('beforeExit', function(){
 });
 
 global.process.on('exiting', function(){
-    fs.rmdirSync('./this.pid');
+    fs.unlinkSync('./this.pid');
 });
 
 program.command('adduser <username> <password>')
